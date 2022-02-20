@@ -2,16 +2,14 @@ package GamblingSimulatorProblem;
 import java.util.*;
 public class GamblingSimulatorProblem {
 
+    public static int stakeAmount;
+    public static int initialStakeAmount;
+    public static int betAmountPerGame;
+    public static int winningAmount;
+    public static int losingAmount;
+
     public static void main(String[] args) {
         System.out.println("Welcome to Gambling Simulator problem");
-
-        //Initializing the stakeAmount and the betAmountPerGame
-        int stakeAmount;
-        int initialStakeAmount;
-        int betAmountPerGame;
-        int winningAmount;
-        int losingAmount;
-
 
         //Getting user input
         Scanner scanner = new Scanner(System.in);
@@ -23,34 +21,45 @@ public class GamblingSimulatorProblem {
         betAmountPerGame = scanner.nextInt();
 
         initialStakeAmount = stakeAmount;
-        winningAmount = stakeAmount + (stakeAmount / 2);
-        losingAmount = stakeAmount - (stakeAmount / 2);
+        winningAmount = initialStakeAmount + (initialStakeAmount / 2);
+        System.out.println(initialStakeAmount);
+        System.out.println(winningAmount);
+        losingAmount = initialStakeAmount - (initialStakeAmount / 2);
+        System.out.println(losingAmount);
 
+        for (int i = 1; i <= 20; i++) {
+            System.out.println("Day " + i);
+            stakeAmount = initialStakeAmount;
+            while (stakeAmount >= losingAmount && stakeAmount <= winningAmount + 1) {
 
-        while (stakeAmount > losingAmount && stakeAmount <= winningAmount) {
-
-            playGame();
-            if (stakeAmount == winningAmount || stakeAmount == losingAmount)
-                System.out.println("Gambler will sign off for the day");
+                playGame();
+            }
         }
-
     }
 
-    public static void playGame() {
-        //Using Random function to get 0 and 1 to find win or lose
-        double WinOrLose = Math.round(Math.random());
 
-        System.out.println(WinOrLose);
+
+    static void playGame() {
+
+        double WinOrLose = Math.round(Math.random());
 
         //Using If condition and calculating the stakeAmount based on the random function value
         if (WinOrLose == 1) {
-            stakeAmount = betAmountPerGame + 1;
-            System.out.println("Gambler has won and the dollar value is  " + stakeAmount);
+            stakeAmount = stakeAmount + betAmountPerGame;
+
         } else {
-            stakeAmount = betAmountPerGame - 1;
-            System.out.println("Gambler has  and the dollar value is  " + stakeAmount);
+            stakeAmount = stakeAmount - betAmountPerGame;
+
         }
 
+        if (stakeAmount == winningAmount) {
+            System.out.println("win");
+            System.out.println("Gambler has won with 50% profit and the stakeAmount is  " + stakeAmount + "   and resigning for the day");
+        }
+        if (stakeAmount == losingAmount) {
+            System.out.println("lost");
+            System.out.println("Gambler has lost with 50% loss and the stake amount is  " + stakeAmount + "  and resigning for the day");
+        }
 
-
-    }}
+    }
+}
